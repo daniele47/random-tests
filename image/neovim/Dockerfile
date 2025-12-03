@@ -9,4 +9,6 @@ USER appuser
 
 RUN git clone https://github.com/neovim/neovim ~/neovim
 
-RUN cd ~/neovim; make CMAKE_BUILD_TYPE=RelWithDebInfo
+RUN cd ~/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo && sudo make install
+
+WORKDIR ~/neovim
