@@ -1,12 +1,12 @@
-name: Ladybird build
+name: Neovim build
 
 on:
   schedule:
     - cron: '0 0 * * 1'
   push:
     paths:
-      - '.github/workflows/ladybird.yml'
-      - 'image/ladybird/**'
+      - '.github/workflows/neovim.yml'
+      - 'image/neovim/**'
 
 jobs:
   build-and-push:
@@ -29,9 +29,9 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./image/ladybird
+          context: ./image/neovim
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/compilations-ladybird:latest
+            ghcr.io/${{ github.repository_owner }}/compilations-neovim:latest
           labels: |
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
