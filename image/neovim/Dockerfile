@@ -1,9 +1,9 @@
 FROM fedora
 
-RUN sudo dnf -y install ninja-build cmake gcc make gettext curl glibc-gconv-extra git
+RUN dnf -y install ninja-build cmake gcc make gettext curl glibc-gconv-extra git zip && dnf clean all
 
 RUN git clone https://github.com/neovim/neovim ~/neovim
 
-RUN cd ~/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo && sudo make install
+RUN cd ~/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo && make install && make CMAKE_INSTALL_PREFIX=~/nvim-install install && zip -r ~/nvim.zip ~/nvim-install
 
-WORKDIR /root/neovim
+WORKDIR /root
