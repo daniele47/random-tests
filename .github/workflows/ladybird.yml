@@ -14,6 +14,16 @@ jobs:
     permissions:
       contents: read
       packages: write
+    
+    strategy:
+      matrix:
+        include:
+          - tag_suffix: slim
+            clean_vcpkg: true
+            is_latest: true
+          - tag_suffix: dev
+            clean_vcpkg: false
+            is_latest: false
 
     steps:
       - name: Checkout repository
@@ -32,6 +42,9 @@ jobs:
           context: ./image/ladybird
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/compilations-ladybird:latest
+            ghcr.io/${{ github.repository_owner }}/compilations-ladybird:${{ matrix.tag_suffix }}
+            ${{ matrix.is_latest && format('ghcr.io/{0}/compilations-ladybird:latest', github.repository_owner) || '' }}
+          build-args: |
+            CLEAN_VCPKG=${{ matrix.clean_vcpkg }}
           labels: |
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}

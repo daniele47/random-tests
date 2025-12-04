@@ -1,5 +1,7 @@
 FROM fedora
 
+ARG CLEAN_VCPKG=true
+
 RUN groupadd -r lb && \
     useradd -r -g lb -m -d /app lb && \
     mkdir -p /app && chown lb:lb /app
@@ -9,6 +11,9 @@ RUN dnf install autoconf-archive automake ccache cmake curl git libdrm-devel lib
 USER lb
 
 RUN git clone https://github.com/LadybirdBrowser/ladybird /app/ladybird && \
-    cd /app/ladybird && ./Meta/ladybird.py build
+    cd /app/ladybird && ./Meta/ladybird.py build && \
+    if [ "$CLEAN_VCPKG" = "true" ]; then \
+        rm -rf /app/ladybird/Build/vcpkg; \
+    fi
 
 USER root
