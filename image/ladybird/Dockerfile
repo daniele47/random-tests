@@ -11,7 +11,7 @@ RUN dnf install autoconf-archive automake ccache cmake curl git libdrm-devel lib
 USER lb
 
 RUN git clone https://github.com/LadybirdBrowser/ladybird /app/ladybird && \
-    cd /app/ladybird && ./Meta/ladybird.py build && \
+    cd /app/ladybird && ./Meta/ladybird.py build && ! ./Meta/ladybird run && \
     if [ "$CLEAN_VCPKG" = "true" ]; then \
         mkdir /app/lb/; \
         mv /app/ladybird/Build/release/{bin,lib64,libexec,share} /app/lb/; \
@@ -21,4 +21,4 @@ RUN git clone https://github.com/LadybirdBrowser/ladybird /app/ladybird && \
 
 USER root
 
-RUN chown -R root:root /app
+RUN chown -R root:root /app && chmod 777 /app
